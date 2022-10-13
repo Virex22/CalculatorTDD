@@ -6,13 +6,13 @@ namespace StackUnitTests
     {
         internal static object Add(string numbers)
         {
-            if (numbers == null || numbers == "")
+            if (string.IsNullOrEmpty(numbers))
                 return 0;
 
-            var arrayNumbers = formatNumbers(numbers).Split(GetDelimiter(numbers), '\n');
+            var arrayNumbers = FormatNumbers(numbers).Split(GetDelimiter(numbers), '\n');
             
             if (numbers.Contains("-"))
-                throwNegativeArgumentException(arrayNumbers);
+                ThrowNegativeArgumentException(arrayNumbers);
 
             return arrayNumbers
                 .Where(number => Convert.ToInt32(number) <= 1000)
@@ -26,14 +26,14 @@ namespace StackUnitTests
             return ',';
         }
 
-        private static string formatNumbers(string numbers)
+        private static string FormatNumbers(string numbers)
         {
             if (numbers.StartsWith("//"))
                 numbers = numbers.Substring(4);
             return numbers;
         }
         
-        private static void throwNegativeArgumentException(string[] numbers)
+        private static void ThrowNegativeArgumentException(string[] numbers)
         {
             string number = numbers.Where(number => Convert.ToInt32(number) < 0).First();
             throw new ArgumentException($"string contains [{number}], which does not meet rule. Entered number should not be negative.");
